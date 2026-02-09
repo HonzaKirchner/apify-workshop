@@ -1,0 +1,14 @@
+{
+    "title": "Python Crawlee BeautifulSoup Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "maxArticles": {
+            "title": "Max Articles",
+            "type": "integer",
+            "description": "Maximum number of articles to scrape",
+            "default": 24
+        }
+    },
+    "required": []
+}

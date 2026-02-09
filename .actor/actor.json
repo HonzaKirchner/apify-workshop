@@ -1,0 +1,17 @@
+{
+	"actorSpecification": 1,
+	"name": "pycon-workshop",
+	"title": "Wired tech article extractor",
+	"description": "Scrapes tech articles from Wired, extracts the content and saves its summary",
+	"version": "0.0",
+	"buildTag": "latest",
+	"meta": {
+		"templateId": "python-crawlee-beautifulsoup"
+	},
+	"input": "./input_schema.json",
+	"output": "./output_schema.json",
+	"storages": {
+		"dataset": "./dataset_schema.json"
+	},
+	"dockerfile": "../Dockerfile"
+}
