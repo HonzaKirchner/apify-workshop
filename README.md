@@ -213,6 +213,8 @@ Let's also update the `ARTICLE` route handler
         if (processed_articles == max_articles):
             await Actor.set_status_message(f"Finishing scraping because we reached Maximum number of articles ({max_articles})")
         return
+    
+    processed_articles += 1
 ```
 
 ### Defining Actor output
@@ -314,8 +316,6 @@ Keep the answer simple and concise. Focus on the main points of the article, and
 
     await context.push_data(data)
     await Actor.charge('article')
-    processed_articles += 1
-        
 ```
 
 #### Step 4: Update dataset schema
@@ -405,3 +405,5 @@ Your Actor will be built and deployed automatically. You can find it in the [Api
 For continuous deployment, you can connect your GitHub repository to Apify. Any push to your repository will automatically build and update your Actor.
 
 See the [Apify Academy](https://docs.apify.com/academy/getting-started/creating-actors) for detailed instructions on GitHub integration.
+
+[Final Actor](https://console.apify.com/actors/fD1X150xUaGRIzkDp/)

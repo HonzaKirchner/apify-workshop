@@ -78,6 +78,8 @@ async def main() -> None:
                 if (processed_articles == max_articles):
                     await Actor.set_status_message(f"Finishing scraping because we reached Maximum number of articles ({max_articles})")
                 return
+            
+            processed_articles += 1
 
             context.log.info(f'Processing article {context.request.url} ...')
 
@@ -111,7 +113,5 @@ Keep the answer simple and concise. Focus on the main points of the article, and
 
             await context.push_data(data)
             await Actor.charge(event_name="article")
-            processed_articles += 1
-
 
         await crawler.run(start_urls)
