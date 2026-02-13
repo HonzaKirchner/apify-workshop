@@ -14,7 +14,9 @@ Example Actor to demonstrate how to create an Actor using Crawlee on Apify platf
 - hover the Actor name and click on the edit icon
 - give your Actor a name and save the form
 
-[![Create an Actor from template](img/create_actor_thumbnail.png)](img/create_actor.mp4)
+<div style="margin-bottom: 20px">
+    <img style="max-width: 800px" src="img/create_actor.gif" />
+</div>
 
 > Actor file structure 
 > ```text
@@ -311,7 +313,7 @@ Keep the answer simple and concise. Focus on the main points of the article, and
     }
 
     await context.push_data(data)
-    await Actor.charge('article_summary')
+    await Actor.charge('article')
     processed_articles += 1
         
 ```
@@ -320,36 +322,73 @@ Keep the answer simple and concise. Focus on the main points of the article, and
 
 Update `.actor/dataset_schema.json` so it includes the new `summary` field.
 
-#### Step 5: Configure pricing and publish the Actor
+#### Step 5: Configure pricing
 
 1. Navigate to *Publication* tab
 2. Expand *Monetization* section
 3. Set up pricing and save the form
 
+<div style="margin-bottom: 20px">
+    <img style="max-width: 800px" src="img/actor_monetization.gif" />
+</div>
 
+#### Step 5: Publish the Actor
 
+1. On the publication tab, fill in required information in *Display information* section
+2. Click Publish on Store and save the form
 
-## Developing Actors locally
+<div style="margin-bottom: 20px">
+    <img style="max-width: 800px" src="img/actor_publication.gif" />
+</div>
+
+## Local Development
+
+Prefer building locally? You can develop the Actor on your machine using the Apify CLI.
 
 #### Prerequisites
-- Python (3.10 or higher)
-- Apify CLI [installed](https://docs.apify.com/cli/docs/installation)
+
+- Python 3.10 or higher
+- [Apify CLI](https://docs.apify.com/cli/docs/installation) installed
 - [Apify account](https://console.apify.com/sign-in)
 
-### Create an Actor from template
+#### Creating an Actor from template
 
-`$ apify create`
-- give the Actor a name (`wired-tech-news-extractor`)
-- select `Python` programming language
-- select `Crawlee + BeautifulSoup` template
-- `cd wired-tech-news-extractor` to newly created dictionary
+```bash
+$ apify create
+```
 
+Follow the prompts:
+- **Name:** `wired-tech-news-extractor`
+- **Language:** Python
+- **Template:** Crawlee + BeautifulSoup
 
-## Deploying to Apify Platform
+Then navigate to your project:
+```bash
+$ cd wired-tech-news-extractor
+```
 
-Once your Actor works locally, it's time to deploy it to the cloud where it can run on Apify's infrastructure.
+#### Testing locally
 
-### Authentication and deployment
+Run the Actor with:
+```bash
+$ apify run
+```
+
+To test with custom input, update `storage/key_value_stores/default/INPUT.json`:
+```json
+{
+  "maxArticles": 48,
+}
+```
+
+> **Tip:** Before running, make sure your `OPENAI_API_KEY` environment variable is set:
+> ```bash
+> $ export OPENAI_API_KEY='sk-your-api-key'
+> ```
+
+#### Deploying to Apify Platform
+
+Once your Actor works locally and you're ready to share it:
 
 ```bash
 # Log in to your Apify account (one-time setup)
@@ -358,3 +397,11 @@ $ apify login
 # Deploy your Actor to the platform
 $ apify push
 ```
+
+Your Actor will be built and deployed automatically. You can find it in the [Apify Console](https://console.apify.com/actors?tab=my).
+
+#### Automatic deployments with GitHub
+
+For continuous deployment, you can connect your GitHub repository to Apify. Any push to your repository will automatically build and update your Actor.
+
+See the [Apify Academy](https://docs.apify.com/academy/getting-started/creating-actors) for detailed instructions on GitHub integration.

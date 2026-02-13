@@ -110,7 +110,7 @@ Keep the answer simple and concise. Focus on the main points of the article, and
             }
 
             await context.push_data(data)
-            await Actor.charge(event_name="article_summary")
+            await Actor.charge(event_name="article")
             processed_articles += 1
 
 
