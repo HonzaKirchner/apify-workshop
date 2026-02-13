@@ -1,6 +1,6 @@
 # Wired tech articles extractor
 
-Example Actor to demonstrate how to create an Actor using Crawlee on Apify platform. It scrapes the latest articles from [Wired about programming](https://www.wired.com/tag/programming/), generates their summary using OpenAI and charges users for each result.
+An example Actor demonstrating how to create an Actor using Crawlee on the Apify platform. It scrapes the latest articles from [Wired about programming](https://www.wired.com/tag/programming/), generates their summary using OpenAI and charges users for each result.
 
 #### Prerequisites
 
@@ -9,7 +9,7 @@ Example Actor to demonstrate how to create an Actor using Crawlee on Apify platf
 ### Create an Actor from template
 - navigate to [*My Actors*]([https:](https://console.apify.com/actors/development)) page
 - click on [*Develop new*](https://console.apify.com/actors/new) button
-- select [*Quick start: Crawlee + BeautifulSoup (Python)*](https://console.apify.com/actors/templates/python-crawlee-beautifulsoup) template 
+- select the [*Quick start: Crawlee + BeautifulSoup (Python)*](https://console.apify.com/actors/templates/python-crawlee-beautifulsoup) template 
 - click on *Use this template*
 - hover the Actor name and click on the edit icon
 - give your Actor a name and save the form
@@ -80,7 +80,7 @@ On the article listing page, we don't need to scrape any content directly. Inste
 
 Key observations:
 - All article URLs follow the same pattern: `https://www.wired.com/story/**`
-- This consistent URL structure allows us to use glob patterns to filter and enqueue only article links using the Crawlee's `enqueue_links()` method
+- This consistent URL structure allows us to use glob patterns to filter and enqueue only article links using Crawlee's `enqueue_links()` method
 
 <div style="margin-bottom: 20px">
     <img style="max-width: 800px" src="img/article_list_links.png" />
@@ -195,7 +195,7 @@ We need to calculate how many pages to visit based on the user's `maxArticles` i
     total_pages = ceil(max_articles / ARTICLES_PER_PAGE)
     base_url = "https://www.wired.com/tag/programming"
 
-    # global state to know when to stop the crawler 
+    # Global state to track when to stop the crawler
     processed_articles = 0
 
     # Generate URLs for all required pages
@@ -273,12 +273,12 @@ Let's enhance the Actor by adding AI-powered article summaries using OpenAI. We'
 
 #### Step 1: Add OpenAI SDK dependency
 
-Add `openai` to `requirements.txt` so the dependency is include in the docker container
+Add `openai` to `requirements.txt` so the dependency is included in the docker container
 
 #### Step 2: Configure API credentials
 
 1. Go to your Actor source tab
-2. Add a new variable to *Environment variables* section:
+2. Add a new variable to the *Environment variables* section:
    - **Key:** `OPENAI_API_KEY`
    - **Value:** Your OpenAI API key
    - **Secret:** ✓ (checked - this encrypts the value)
@@ -332,7 +332,7 @@ Update `.actor/dataset_schema.json` so it includes the new `summary` field.
     <img style="max-width: 800px" src="img/actor_monetization.gif" />
 </div>
 
-#### Step 5: Publish the Actor
+#### Step 6: Publish the Actor
 
 1. On the publication tab, fill in required information in *Display information* section
 2. Click Publish on Store and save the form
@@ -377,7 +377,7 @@ $ apify run
 To test with custom input, update `storage/key_value_stores/default/INPUT.json`:
 ```json
 {
-  "maxArticles": 48,
+  "maxArticles": 48
 }
 ```
 
