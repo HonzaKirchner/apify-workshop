@@ -14,7 +14,7 @@ from math import ceil
 from apify import Actor, Event
 from crawlee.crawlers import BeautifulSoupCrawler, BeautifulSoupCrawlingContext
 from crawlee import Glob
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 async def main() -> None:
     """Define a main entry point for the Apify Actor.
@@ -25,7 +25,7 @@ async def main() -> None:
     """
     # Enter the context of the Actor.
     async with Actor:
-        client = OpenAI()
+        open_ai_client = AsyncOpenAI()
 
         # Handle graceful abort - Actor is being stopped by user or platform
         async def on_aborting() -> None:
@@ -45,7 +45,7 @@ async def main() -> None:
         actor_input = await Actor.get_input() or {}
         max_articles = actor_input.get("maxArticles", ARTICLES_PER_PAGE)
         total_pages = ceil(max_articles / ARTICLES_PER_PAGE)
-
+        processed_articles = 0
 
         base_url = "https://www.wired.com/tag/programming"
 
@@ -67,11 +67,18 @@ async def main() -> None:
             await context.enqueue_links(
                 include=[Glob("https://www.wired.com/story/**"), ],
                 label="ARTICLE",
-                ) 
+            ) 
             
         @crawler.router.handler(label="ARTICLE")
         async def request_handler(context: BeautifulSoupCrawlingContext) -> None:
             """Handler for processing the article page."""
+            nonlocal processed_articles
+
+            if (processed_articles >= max_articles):
+                if (processed_articles == max_articles):
+                    await Actor.set_status_message(f"Finishing scraping because we reached Maximum number of articles ({max_articles})")
+                return
+
             context.log.info(f'Processing article {context.request.url} ...')
 
             title_el = context.soup.select_one('h1[data-testid="ContentHeaderHed"]')
@@ -81,38 +88,30 @@ async def main() -> None:
             content = content_el.get_text(strip=True) if content_el else None
 
             prompt = f"""
-Your task is to summarize the content of the article in 3 sentences.
+Your task is to summarize the content of the article in 3 sentences at most.
 The original content of the article is:
 {content}
 
 Keep the answer simple and concise. Focus on the main points of the article, and avoid unnecessary details.
 """
-            summary = (
-                client.responses.create(
+            summary = None
+            if content:
+                resp = await open_ai_client.responses.create(
                     model="gpt-4.1-mini",
-                    input=prompt
+                    input=prompt,
                 )
-                if content
-                else None
-            )
+                summary = resp.output_text
 
             data = {
                 'title': title,
                 'content': content,
                 'url': context.request.url,
-                'summary': summary.output_text if summary else None,
+                'summary': summary,
             }
 
             await context.push_data(data)
-
-            if content:
-                await Actor.charge(event_name="article_summary")
+            await Actor.charge(event_name="article_summary")
+            processed_articles += 1
 
 
         await crawler.run(start_urls)
-
-
-# TODO: AsyncOpenAI
-# TODO: The content selector is not right
-# TODO: Check the max_requests_per_crawl
-
