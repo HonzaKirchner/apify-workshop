@@ -6,7 +6,7 @@ An example Actor demonstrating how to create an Actor using Crawlee on the Apify
 
 - [Apify account](https://console.apify.com/sign-in)
 
-### Create an Actor from template
+### Create an Actor from a template
 - navigate to [*My Actors*]([https:](https://console.apify.com/actors/development)) page
 - click on [*Develop new*](https://console.apify.com/actors/new) button
 - select the [*Quick start: Crawlee + BeautifulSoup (Python)*](https://console.apify.com/actors/templates/python-crawlee-beautifulsoup) template 
@@ -38,7 +38,7 @@ An example Actor demonstrating how to create an Actor using Crawlee on the Apify
 
 ### Analyze the page
 
-Before writing any scraping code, analyzing the target website's structure is crucial for successful web scraping. Understanding how the page is built allows you to identify the correct CSS selectors, detect patterns, and ensure your scraper works reliably across multiple pages.
+Before writing any scraping code, analyze the target website's structure. Understanding how the page is built allows you to identify the correct CSS selectors, detect patterns, and make sure your scraper works reliably across multiple pages.
 
 **Why page analysis matters:**
 - Identifies repeating patterns and data structures across pages
@@ -53,7 +53,7 @@ Before writing any scraping code, analyzing the target website's structure is cr
 4. **Check multiple pages** - verify that the structure is consistent across different articles/products
 5. **Look for static attributes** - attributes like `id` or `data-testid` are more stable than generated class names
 6. **Test CSS selectors in Console** - use `document.querySelector()` to verify your selectors work
-7. **Inspect Network tab** - sometimes data comes from API calls rather than rendered HTML
+7. **Inspect the Network tab** - sometimes data comes from API calls rather than rendered HTML
 
 #### Article detail page
 
@@ -110,7 +110,7 @@ async def request_handler(context: BeautifulSoupCrawlingContext) -> None:
 
 ### Extracting content from article pages
 
-The article handler processes individual article pages. We use Beautiful Soup's CSS selectors to extract the data we identified during page analysis:
+The article handler processes individual article pages. We use BeautifulSoup's CSS selectors to extract the data we identified during page analysis:
 
 ```python
 @crawler.router.handler(label="ARTICLE")
@@ -131,7 +131,7 @@ async def article_handler(context: BeautifulSoupCrawlingContext) -> None:
 
 **Key points:**
 - `@crawler.router.handler(label="ARTICLE")` - Processes only requests labeled as "ARTICLE"
-- `context.soup.select_one()` - Beautiful Soup method to find elements using CSS selectors
+- `context.soup.select_one()` - the BeautifulSoup method to find elements using CSS selectors
 - `await context.push_data(data)` - Saves the extracted data to the default dataset
 
 **Try it!** 
@@ -269,9 +269,9 @@ Update `.actor/dataset_schema.json` so it describes the output expected by the A
 }
 ```
 
-## Adding Premium Features
+## Adding premium features
 
-Let's enhance the Actor by adding AI-powered article summaries using OpenAI. We'll also implement event-based charging so users pay for the AI processing.
+Let's improve the Actor by adding AI-generated article summaries using OpenAI. We'll also implement event-based charging so users pay for the AI processing.
 
 #### Step 1: Add OpenAI SDK dependency
 
@@ -341,7 +341,7 @@ Update `.actor/dataset_schema.json` so it includes the new `summary` field.
     <img style="max-width: 800px" src="img/actor_publication.gif" />
 </div>
 
-## Local Development
+## Local development
 
 Prefer building locally? You can develop the Actor on your machine using the Apify CLI.
 
@@ -386,7 +386,7 @@ To test with custom input, update `storage/key_value_stores/default/INPUT.json`:
 > $ export OPENAI_API_KEY='sk-your-api-key'
 > ```
 
-#### Deploying to Apify Platform
+#### Deploying to the Apify platform
 
 Once your Actor works locally and you're ready to share it:
 
@@ -398,7 +398,7 @@ $ apify login
 $ apify push
 ```
 
-Your Actor will be built and deployed automatically. You can find it in the [Apify Console](https://console.apify.com/actors?tab=my).
+Your Actor will be built and deployed automatically. You can find it in [Apify Console](https://console.apify.com/actors?tab=my).
 
 #### Automatic deployments with GitHub
 
