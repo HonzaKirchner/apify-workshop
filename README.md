@@ -4,7 +4,11 @@ An example Actor demonstrating how to create an Actor using Crawlee on the Apify
 
 #### Prerequisites
 
-- [Apify account](https://console.apify.com/sign-in)
+- [Apify account](https://console.apify.com/sign-in) created
+- Coupon applied ❤️
+<div style="margin-bottom: 20px">
+    <img style="max-width: 800px" src="img/apply_coupon.gif" />
+</div>
 
 ### Create an Actor from a template
 - navigate to [*My Actors*]([https:](https://console.apify.com/actors/development)) page
